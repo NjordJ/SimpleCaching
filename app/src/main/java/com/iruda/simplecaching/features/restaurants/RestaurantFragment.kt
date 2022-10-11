@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.iruda.simplecaching.databinding.FragmentRestaurantsBinding
+import com.iruda.simplecaching.util.Resource
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -44,8 +46,16 @@ class RestaurantFragment : Fragment() {
                 layoutManager = LinearLayoutManager(requireContext())
             }
 
-            viewModel.restaurants.observe(viewLifecycleOwner) { restaurants ->
+            /*viewModel.restaurants.observe(viewLifecycleOwner) { restaurants ->
                 restaurantAdapter.submitList(restaurants)
+            }*/
+
+            viewModel.restaurants.observe(viewLifecycleOwner) { result ->
+                restaurantAdapter.submitList(result.data)
+
+                progressBarRestaurants.isVisible = result is Resource.Loading && result.data.isNullOrEmpty()
+                textViewRestaurantsError.isVisible = result is Resource.Error && result.data.isNullOrEmpty()
+                textViewRestaurantsError.text = result.error?.localizedMessage
             }
         }
 
