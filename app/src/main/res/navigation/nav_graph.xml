@@ -8,6 +8,6 @@
     <fragment
         android:id="@+id/restaurantFragment"
         android:name="com.iruda.simplecaching.features.restaurants.RestaurantFragment"
-        android:label="fragment_restaurants"
+        android:label="Restaurants"
         tools:layout="@layout/fragment_restaurants" />
 </navigation>
